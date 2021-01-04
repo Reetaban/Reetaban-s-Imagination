@@ -1,0 +1,85 @@
+Room Name: Main Area
+Room Description:  You are in a plain clearing. On your left there seems to be a cave.<br>On your right there seems to be a forest.<br>In front of you, there seems to be a gate and behind you there is a river.<br>If you look around you might find something. 
+Exit Rooms: W-Cave, N-Gate, E-Forest, S-River Bank
+Room Name: Gate
+Room Description: You arrive at the gate. After hitting it a few times, you begin to realise that the door is locked.<br>However to your suprise instead of there being a key, there is a slight curvature in the wall where you must place something. 
+Exit Rooms: S-Main Area, N-Escape
+Room Name: Cave
+Room Description: You reach a cave. There is an eerie silence, and light is dim.<br>To proceed forward without a light source spells certain death.
+Exit Rooms: W-Deserted Temple, E-Main Area
+Room Name: Deserted Temple
+Room Description: After carefully walking through the cave with your flashlight you arrive in a sandy plains.<br>Before you is a massive pillar which seems to have worn out over time.<br>You can either go up or down in the temple.
+Exit Rooms: U-Scorpion Pit, D-Snake Pit, E-Cave
+Room Name: Snake Pit
+Room Description: You arrive at the entrance of the snake pit. The area in front of you is littered with venomous hissing snakes.<br>You fear for your life but you could try to make a run for it.<br>If only there was a way to scare off the snakes.
+Exit Rooms: D- Treasure Chest, U-Deserted Temple
+Room Name: Treasure Chest
+Room Description: You enter the treasure room. Unfortunately, most of the treasure has been taken out of the temple.<br>Maybe you could have a look around, there might be something left.
+Exit Rooms: U-Snake Pit
+Room Name: Scorpion Pit
+Room Description: You reach the entrance of the scorpion pit. Thankfully there seems to be only a few scorpions.<br>You could probably easily maneuver your way through the pit.
+Exit Rooms: D-Deserted Temple, U-King Tomb
+Room Name: King Tomb
+Room Description: The tomb is threatening but awe inspiring at the same time.<br>Built in ancient times, there could be the mantlepiece that you are looking for.
+Exit Rooms: D-Scorpion Pit
+Room Name: River Bank
+Room Description: You are at the beach. Around you, you can see a number of empty bottles.<br> Unfortunately, there is no message in the bottles or police. Hahahaha I am so funny.<br> Anyway, staring in front of you is a pool of murky water.
+Exit Rooms: N-Main Area, S-Murky Water
+Room Name: Murky Water
+Room Description: You enter the murky water. At the start you could wade through the water, however you need to swim now.
+Exit Rooms: N-River Bank
+Room Name: Rapids
+Room Description: You reach fast flowing water. You need to go back.
+Exit Rooms: N-Murky Water
+Room Name: Hidden Grotto
+Room Description: You find a hidden clearing. In front of you are a bunch of gold coins,<br> and to your north there seems to be a path leading to a Forest.
+Exit Rooms: W- Murky Water, N- Forest
+Room Name: Forest
+Room Description: You reach a dark and eerie forest.<br> The trees are thick and there seems to be no sign of human life.
+Exit Rooms: E-Abandoned House, W-Main Area
+Room Name: Abandoned House
+Room Description: You arrive at the entrance of the house. The house is painted black, and the silence is unsettling.<br> The house seems to be abandoned for some time, and could be crawling with pests.
+Exit Rooms: W-Forest, N-Woods, E-Bedroom
+Room Name: Woods
+Room Description: The trees shroud your vision, as you slowly traverse through the woods.<br> To your distance you can hear an animal screeching. Your gut clenches, and your body is screaming to go back
+Exit Rooms: E-Deeper Woods, S-Abandoned House
+Room Name: Deeper Woods
+Room Description: The area gets darker, and the trees are bushy in size. You stop in your tracks when facing a ravenous wolverine.<br> You think about doubling back, but perhaps you could climb that tree
+Exit Rooms:W-Woods, E-Dead End
+Room Name: Dead End
+Room Description: Whoa. I am impressed. Congrats on getting past the wolverine without dying.<br> You have reached the only easter egg in the game. Look around for your prize. Also good luck getting back. 
+Exit Rooms: W-Deeper Woods
+Room Name: Bedroom
+Room Description: You enter the bedroom. The furniture seems to be laced in dust.<br> You notice stairs leading down to the basement, and a latch leading up the attic.
+Exit Rooms: U-Attic, D-Basement, W-Abandoned House
+Room Name: Attic
+Room Description: You enter the old attic. The floorboards creak as you take steps forward.<br> Maybe you could take a look around, and find something useful.
+Exit Rooms: D-Bedroom
+Room Name: Basement
+Room Description: You enter in the basement.<br> The area seems to be dark, but you are sure you can find something useful if you look around.<br>  There also seems to be a hidden back door.
+Exit Rooms: U-Bedroom, E-Cliff
+Room Name: Cliff
+Room Description: You go out of the back door, and walk down the path. You reach a standstill.<br> There seems to be nowhere to go past the cliff. You have to go back.
+Exit Rooms: W-Basement
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
