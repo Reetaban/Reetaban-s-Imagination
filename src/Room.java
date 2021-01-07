@@ -19,15 +19,17 @@ import java.util.Iterator;
 public class Room {
   private String roomName;
   private String description;
+  private boolean isLocked;
   private HashMap<String, Room> exits; // stores exits of this room.
 
   /**
    * Create a room described "description". Initially, it has no exits.
    * "description" is something like "a kitchen" or "an open court yard".
    */
-  public Room(String description) {
+  public Room(String description,boolean isLocked) {
     this.description = description;
     exits = new HashMap<String, Room>();
+    this.isLocked=isLocked;
   }
 
   public Room() {
@@ -36,6 +38,14 @@ public class Room {
     description = "DEFAULT DESCRIPTION";
     exits = new HashMap<String, Room>();
   }
+
+public void setIsLocked(boolean isLocked){
+  this.isLocked=isLocked;
+}
+
+public boolean getIsLocked(){
+  return isLocked;
+}
 
   public void setExit(char direction, Room r) throws Exception {
     String dir = "";
@@ -112,6 +122,9 @@ public class Room {
       returnString += " " + iter.next();
     return returnString;
   }
+
+
+
 
   /**
    * Return the room that is reached if we go from this room in direction

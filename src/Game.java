@@ -32,8 +32,7 @@ public class Game {
   // Room (assuming you have one).
   private HashMap<String, Room> masterRoomMap;
 
-
-  private ArrayList<String> inventory=new ArrayList<>();
+  private ArrayList<String> inventory = new ArrayList<>();
 
   private void initRooms(String fileName) throws Exception {
     masterRoomMap = new HashMap<String, Room>();
@@ -47,6 +46,10 @@ public class Game {
         String roomName = roomScanner.nextLine();
         room.setRoomName(roomName.split(":")[1].trim());
         // Read the Description
+        if (roomName.split(":")[1].trim().equals("Gate") || (roomName.split(":")[1].trim().equals("Deserted Temple")))
+          room.setIsLocked(true);
+        else
+          room.setIsLocked(false);
         String roomDescription = roomScanner.nextLine();
         room.setDescription(roomDescription.split(":")[1].replaceAll("<br>", "\n").trim());
         // Read the Exits
@@ -121,7 +124,8 @@ public class Game {
   private void printWelcome() {
     System.out.println();
     System.out.println("Welcome to Reetaban’s Imagination!");
-    System.out.println("As you can see you are not real. Oops I just broke the 4th wall. Anyway you must escape the game.");
+    System.out
+        .println("As you can see you are not real. Oops I just broke the 4th wall. Anyway you must escape the game.");
     System.out.println("Good Luck!");
     System.out.println();
     System.out.println(currentRoom.longDescription());
@@ -141,15 +145,16 @@ public class Game {
       printHelp();
     else if (commandWord.equals("go"))
       goRoom(command);
-    else if (commandWord.equals("look")){
-      String item=lookaround();
+    else if (commandWord.equals("look")) {
+      String item = lookaround();
+      System.out.println(currentRoom.getRoomName());
       if (!item.equals("No items found"))
-      inventory.add(item);
-    }
-    else if (commandWord.equals("jump")){
+        inventory.add(item);
+      System.out.println(item);
+    } else if (commandWord.equals("jump")) {
       System.out.println("Van Halen plays in the background. Might as well jump.");
     }
-    
+
     else if (commandWord.equals("quit")) {
       if (command.hasSecondWord())
         System.out.println("Quit what?");
@@ -162,31 +167,23 @@ public class Game {
   }
 
   private String lookaround() {
-    if (currentRoom.getRoomName().equals("MAIN_AREA")){
+    if (currentRoom.getRoomName().equals("Main Area")) {
       return "Batteries";
-    }
-    else if (currentRoom.getRoomName().equals("CAVE")){
+    } else if (currentRoom.getRoomName().equals("Cave")) {
       return "Lighter";
-    }
-    else if (currentRoom.getRoomName().equals("KING_TOMB")){
+    } else if (currentRoom.getRoomName().equals("King Tomb")) {
       return "Mantlepiece";
-    }
-    else if (currentRoom.getRoomName().equals("TREASURE_CHEST")){
+    } else if (currentRoom.getRoomName().equals("Treasure Chest")) {
       return "Diamond";
-    }
-    else if (currentRoom.getRoomName().equals("RIVER_BANK")){
+    } else if (currentRoom.getRoomName().equals("River Bank")) {
       return "Bottle";
-    }
-    else if (currentRoom.getRoomName().equals("HIDDEN_GROTTO")){
+    } else if (currentRoom.getRoomName().equals("Hidden Grotto")) {
       return "Gold Coin";
-    }
-    else if (currentRoom.getRoomName().equals("DEAD_END")){
+    } else if (currentRoom.getRoomName().equals("Dead End")) {
       return "Diamond";
-    }
-    else if (currentRoom.getRoomName().equals("BASEMENT")){
+    } else if (currentRoom.getRoomName().equals("Basement")) {
       return "Flashlight";
-    }
-    else{
+    } else {
       return "No items found";
     }
   }
@@ -215,10 +212,20 @@ public class Game {
       return;
     }
     String direction = command.getSecondWord();
-    // Try to leave current room.
     Room nextRoom = currentRoom.nextRoom(direction);
+
     if (nextRoom == null)
       System.out.println("There is no door!");
+    else if (nextRoom.getIsLocked()){
+      if(nextRoom.getRoomName().equals("Deserted Temple")){
+        if(!inventory.contains("Flashlight"))
+        System.out.println("You do have the items to get to the next area");
+      }
+      else if(nextRoom.getRoomName().equals("Gate")){
+        if(!inventory.contains("Mantlepiece"))
+        System.out.println("You do have the items to get to the next area");
+      }
+    }
     else {
       currentRoom = nextRoom;
       System.out.println(currentRoom.longDescription());

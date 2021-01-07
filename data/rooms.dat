@@ -61,6 +61,9 @@ Exit Rooms: U-Bedroom, E-Cliff
 Room Name: Cliff
 Room Description: You go out of the back door, and walk down the path. You reach a standstill.<br> There seems to be nowhere to go past the cliff. You have to go back.
 Exit Rooms: W-Basement
+Room Name: Escape
+Room Description: Congrats you win
+Exit Rooms: S-Gate
 
 
 
