@@ -46,7 +46,7 @@ public class Game {
         String roomName = roomScanner.nextLine();
         room.setRoomName(roomName.split(":")[1].trim());
         // Read the Description
-        if (roomName.split(":")[1].trim().equals("Gate") || (roomName.split(":")[1].trim().equals("Deserted Temple")))
+        if (roomName.split(":")[1].trim().equals("Escape") || (roomName.split(":")[1].trim().equals("Deserted Temple")))
           room.setIsLocked(true);
         else
           room.setIsLocked(false);
@@ -221,7 +221,7 @@ public class Game {
         if(!inventory.contains("Flashlight"))
         System.out.println("You do have the items to get to the next area");
       }
-      else if(nextRoom.getRoomName().equals("Gate")){
+      else if(nextRoom.getRoomName().equals("Escape")){
         if(!inventory.contains("Mantlepiece"))
         System.out.println("You do have the items to get to the next area");
       }
