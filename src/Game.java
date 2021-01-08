@@ -147,14 +147,27 @@ public class Game {
       goRoom(command);
     else if (commandWord.equals("look")) {
       String item = lookaround();
-      System.out.println(currentRoom.getRoomName());
       if (!item.equals("No items found"))
         inventory.add(item);
-      System.out.println(item);
+      System.out.println("You find "+item);
     } else if (commandWord.equals("jump")) {
       System.out.println("Van Halen plays in the background. Might as well jump.");
     }
-
+    else if (commandWord.equals("scream")){
+      System.out.println("Stop screaming, you're straining your vocal chords");
+    }
+    else if (commandWord.equals("craft")){
+      String item= craft();
+      if (!item.equals("You do not have the required materials to craft")){
+        inventory.add(item);
+        inventory.remove("Batteries");
+        inventory.remove("Empty Flashlight");
+        System.out.println("You add the batteries to the flashlight");
+      }
+      else {
+        System.out.println("You do not have the required materials to craft");
+      }
+    }
     else if (commandWord.equals("quit")) {
       if (command.hasSecondWord())
         System.out.println("Quit what?");
@@ -182,11 +195,23 @@ public class Game {
     } else if (currentRoom.getRoomName().equals("Dead End")) {
       return "Diamond";
     } else if (currentRoom.getRoomName().equals("Basement")) {
-      return "Flashlight";
+      return "Empty Flashlight";
     } else {
-      return "No items found";
+      return "no items ";
     }
   }
+
+  private String craft() {
+    if (inventory.contains("Batteries") && inventory.contains("Empty Flashlight")){
+      return "Working Flashlight";
+    }
+    else {
+      return "You do not have the required materials to craft";
+    }
+  }
+
+
+
 
   // implementations of user commands:
   /**
@@ -194,9 +219,9 @@ public class Game {
    * and a list of the command words.
    */
   private void printHelp() {
-    System.out.println("You are lost. You are alone. You wander");
-    System.out.println("around at Monash Uni, Peninsula Campus.");
-    System.out.println();
+    System.out.println("Why do you want help");
+    System.out.println("Are you so much a simpleton that you cant escape.");
+    System.out.println("I am dissapointed");
     System.out.println("Your command words are:");
     parser.showCommands();
   }
@@ -218,7 +243,7 @@ public class Game {
       System.out.println("There is no door!");
     else if (nextRoom.getIsLocked()){
       if(nextRoom.getRoomName().equals("Deserted Temple")){
-        if(!inventory.contains("Flashlight"))
+        if(!inventory.contains("Working Flashlight"))
         System.out.println("You do have the items to get to the next area");
       }
       else if(nextRoom.getRoomName().equals("Escape")){
