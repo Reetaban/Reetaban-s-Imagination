@@ -156,6 +156,12 @@ public class Game {
     else if (commandWord.equals("scream")){
       System.out.println("Stop screaming, you're straining your vocal chords");
     }
+    else if (commandWord.equals("yell")){
+      System.out.println("Same thing as yell basically");
+    }
+    else if (commandWord.equals("walk")){
+      System.out.println("You tread lightly, how cool you must be");
+    }
     else if (commandWord.equals("craft")){
       String item= craft();
       if (!item.equals("You do not have the required materials to craft")){
