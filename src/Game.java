@@ -166,12 +166,12 @@ public class Game {
       goRoom(cmd);
       System.out.println("You have succesfully ran away from the Wolverine");
     }
-    else if (result==true){
+    else if (result){
       System.out.println("Why are you running");
     }
     else {
       System.out.println("You died to the Wolverine, Thank you for playing, Good Luck Next Time!!!");
-      System.exit(0);
+      return true;
     }
     }
     else if (commandWord.equals("walk")){
@@ -234,7 +234,6 @@ public class Game {
   private boolean run() {
     if (currentRoom.getRoomName().equals("Deeper Woods")){
       int chance=(int)(Math.random()*10)+1;
-      System.out.println(chance);
       if (chance<6){
         return true;
       }
