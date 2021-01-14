@@ -157,7 +157,22 @@ public class Game {
       System.out.println("Stop screaming, you're straining your vocal chords");
     }
     else if (commandWord.equals("yell")){
-      System.out.println("Same thing as yell basically");
+      System.out.println("Same thing as scream basically");
+    }
+    else if (commandWord.equals("run")){ 
+    boolean result=run();
+    if(result==true && currentRoom.getRoomName().equals("Deeper Woods")){
+      Command cmd=new Command("go","west");
+      goRoom(cmd);
+      System.out.println("You have succesfully ran away from the Wolverine");
+    }
+    else if (result==true){
+      System.out.println("Why are you running");
+    }
+    else {
+      System.out.println("You died to the Wolverine, Thank you for playing, Good Luck Next Time!!!");
+      System.exit(0);
+    }
     }
     else if (commandWord.equals("walk")){
       System.out.println("You tread lightly, how cool you must be");
@@ -216,9 +231,21 @@ public class Game {
     }
   }
 
-
-
-
+  private boolean run() {
+    if (currentRoom.getRoomName().equals("Deeper Woods")){
+      int chance=(int)(Math.random()*10)+1;
+      System.out.println(chance);
+      if (chance<6){
+        return true;
+      }
+      else{
+        return false;
+    }
+  }
+    else{
+      return true;
+  }
+}
   // implementations of user commands:
   /**
    * Print out some help information. Here we print some stupid, cryptic message
@@ -243,8 +270,11 @@ public class Game {
       return;
     }
     String direction = command.getSecondWord();
+    if (currentRoom.getRoomName().equals("Deeper Woods")){
+    System.out.println("You can not use the go method here, use run or climb");
+    }
+    else{
     Room nextRoom = currentRoom.nextRoom(direction);
-
     if (nextRoom == null)
       System.out.println("There is no door!");
     else if (nextRoom.getIsLocked()){
@@ -256,10 +286,11 @@ public class Game {
         if(!inventory.contains("Mantlepiece"))
         System.out.println("You do have the items to get to the next area");
       }
-    }
+      }
     else {
       currentRoom = nextRoom;
       System.out.println(currentRoom.longDescription());
     }
   }
+}
 }
