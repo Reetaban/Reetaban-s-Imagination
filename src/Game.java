@@ -31,12 +31,21 @@ public class Game {
   // masterRoomMap.get("GREAT_ROOM") will return the Room Object that is the Great
   // Room (assuming you have one).
   private HashMap<String, Room> masterRoomMap;
-
+  private static final int MAX_WEIGHT=25;
   private ArrayList<String> inventory = new ArrayList<>();
-
+  private HashMap<String, Integer> weight= new HashMap<>();
+  int score=0;
+  Scanner scan=new Scanner(System.in);
   private void initRooms(String fileName) throws Exception {
     masterRoomMap = new HashMap<String, Room>();
     Scanner roomScanner;
+    weight.put("Batteries",5);
+    weight.put("Bottle",2);
+    weight.put("Water Bottle",4);
+    weight.put("Empty Flashlight",10);
+    weight.put("Working Flashlight",15);
+    weight.put("Lighter",5);
+    weight.put("Mantlepiece",10);
     try {
       HashMap<String, HashMap<String, String>> exits = new HashMap<String, HashMap<String, String>>();
       roomScanner = new Scanner(new File(fileName));
@@ -115,7 +124,7 @@ public class Game {
       Command command = parser.getCommand();
       finished = processCommand(command);
     }
-    System.out.println("Thank you for playing.  Good bye.");
+    System.out.println("Thank you for playing. Your bonus score is"+score+"Good bye.");
   }
 
   /**
@@ -147,11 +156,53 @@ public class Game {
       goRoom(command);
     else if (commandWord.equals("look")) {
       String item = lookaround();
-      if (!item.equals("No items found"))
+      System.out.println("You find "+item);  
+      if (!item.equals("No items found")&& !item.equals("Diamond")&& !item.equals("Gold Coin")){
+        int totalweight=totalMass();
+        if (totalweight+weight.get(item)<=MAX_WEIGHT){
         inventory.add(item);
-      System.out.println("You find "+item);
+        }
+        else {
+          System.out.println("You need to drop an item");
+          System.out.println(inventory);
+          while(totalMass()+weight.get(item)>MAX_WEIGHT){
+          System.out.println("Which item do you want to drop");
+          String toDrop= scan.nextLine();
+          if (inventory.contains(toDrop)){
+          inventory.remove(toDrop);
+          }
+          else{
+            System.out.println("Enter the correct item name");
+          }
+          }
+          inventory.add(item);
+        }
+      }
+      
     } else if (commandWord.equals("jump")) {
       System.out.println("Van Halen plays in the background. Might as well jump.");
+    }
+    else if(commandWord.equals("swim")){
+    if (currentRoom.getRoomName().equals("Murky Water")){
+      if (command.hasSecondWord()==false){
+        System.out.println("Please enter a direction");
+      }
+      else {
+      String second=command.getSecondWord();
+      if (second.equals("south")){
+        goRoom(new Command("swim", "south"));
+      }
+      if (second.equals("east")){
+        goRoom(new Command("swim","east"));  
+      }
+      if (second.equals("north")){
+        goRoom(new Command("swim", "north"));
+      }
+    }
+    }
+    else {
+      System.out.println("Why are trying to swim on land");
+    }
     }
     else if (commandWord.equals("scream")){
       System.out.println("Stop screaming, you're straining your vocal chords");
@@ -170,11 +221,26 @@ public class Game {
       System.out.println("Why are you running");
     }
     else {
-      System.out.println("You died to the Wolverine, Thank you for playing, Good Luck Next Time!!!");
+      System.out.println("You died to the Wolverine, Thank you for playing. Your bonus score is"+score+"Good Luck Next Time!!!");
       return true;
     }
     }
-    else if (commandWord.equals("walk")){
+    else if (commandWord.equals("climb")){
+    boolean result=climb();
+    if(result==true && currentRoom.getRoomName().equals("Deeper Woods")){
+      Command cmd=new Command("go","east");
+      goRoom(cmd);
+      System.out.println("You have succesfully ran away from the Wolverine");
+    }
+    else if (result){
+      System.out.println("Why are you running");
+    }
+    else {
+      System.out.println("You died to the Wolverine, Thank you for playing, Good Luck Next Time!!!");
+      return true;
+  }
+}
+      else if (commandWord.equals("walk")){
       System.out.println("You tread lightly, how cool you must be");
     }
     else if (commandWord.equals("craft")){
@@ -184,6 +250,7 @@ public class Game {
         inventory.remove("Batteries");
         inventory.remove("Empty Flashlight");
         System.out.println("You add the batteries to the flashlight");
+        System.out.println(inventory);
       }
       else {
         System.out.println("You do not have the required materials to craft");
@@ -212,9 +279,12 @@ public class Game {
     } else if (currentRoom.getRoomName().equals("River Bank")) {
       return "Bottle";
     } else if (currentRoom.getRoomName().equals("Hidden Grotto")) {
+      score+=5;
       return "Gold Coin";
     } else if (currentRoom.getRoomName().equals("Dead End")) {
+      score+=10;
       return "Diamond";
+      
     } else if (currentRoom.getRoomName().equals("Basement")) {
       return "Empty Flashlight";
     } else {
@@ -230,6 +300,33 @@ public class Game {
       return "You do not have the required materials to craft";
     }
   }
+
+  private boolean climb(){
+    if (currentRoom.getRoomName().equals("Deeper Woods")){
+      int chance=(int)(Math.random()*10)+1;
+      if (chance<2){
+        return true;
+      }
+      else{
+        return false;
+    }
+  }
+    else{
+      return true;
+  } 
+  }
+
+  private int totalMass(){
+    int w=0;
+    for (String item:inventory){
+      w+=weight.get(item);
+    }
+    return w;
+  }
+
+  
+
+
 
   private boolean run() {
     if (currentRoom.getRoomName().equals("Deeper Woods")){
@@ -277,13 +374,38 @@ public class Game {
     if (nextRoom == null)
       System.out.println("There is no door!");
     else if (nextRoom.getIsLocked()){
+      System.out.println("Cave west locked");
       if(nextRoom.getRoomName().equals("Deserted Temple")){
-        if(!inventory.contains("Working Flashlight"))
-        System.out.println("You do have the items to get to the next area");
+        if(!inventory.contains("Working Flashlight")){
+        System.out.println("You do not have the items to get to the next area");
+      }
+      else{
+      nextRoom.setIsLocked(false);
+      }
+    }
+      else if (nextRoom.getRoomName().equals("Treasure Chest")){
+        if (!inventory.contains("Lighter")){
+        int chance=(int)(Math.random()*10)+1;
+        if (chance<4){
+          goRoom(command);
+        }
+        else {
+          System.out.println("You die to the snakes, You have a bonus score of"+score+"thank you for playing");
+          System.exit(0);
+        }
+        }
+        else{
+          System.out.println("You use the lighter to distract the snakes");
+          goRoom(command);
+        }
+        }
       }
       else if(nextRoom.getRoomName().equals("Escape")){
-        if(!inventory.contains("Mantlepiece"))
-        System.out.println("You do have the items to get to the next area");
+        if(!inventory.contains("Mantlepiece")){
+        System.out.println("You do not have the items to get to the next area");
+      }
+      else {
+        nextRoom.setIsLocked(false);
       }
       }
     else {

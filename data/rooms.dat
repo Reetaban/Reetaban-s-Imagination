@@ -27,13 +27,13 @@ Room Description: You are at the beach. Around you, you can see a number of empt
 Exit Rooms: N-Main Area, S-Murky Water
 Room Name: Murky Water
 Room Description: You enter the murky water. At the start you could wade through the water, however you need to swim now.
-Exit Rooms: N-River Bank
+Exit Rooms: N-River Bank, E-Hiden Grotto, S-Rapids
 Room Name: Rapids
 Room Description: You reach fast flowing water. You need to go back.
 Exit Rooms: N-Murky Water
 Room Name: Hidden Grotto
 Room Description: You find a hidden clearing. In front of you are a bunch of gold coins,<br> and to your north there seems to be a path leading to a Forest.
-Exit Rooms: W- Murky Water, N- Forest
+Exit Rooms: W-Murky Water, N-Forest
 Room Name: Forest
 Room Description: You reach a dark and eerie forest.<br> The trees are thick and there seems to be no sign of human life.
 Exit Rooms: E-Abandoned House, W-Main Area
