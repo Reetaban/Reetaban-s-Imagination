@@ -200,10 +200,21 @@ public class Game {
       }
     }
     }
+    if (currentRoom.getRoomName().equals("Rapids")){
+    if (command.hasSecondWord()==false){
+    System.out.println("Please enter a direction");
+    }
     else {
-      System.out.println("Why are trying to swim on land");
+    String second=command.getSecondWord();
+    if (second.equals("north")){
+      goRoom(new Command("swim", "north"));
     }
     }
+  }
+  else {
+    System.out.println("Why are trying to swim on land");
+  }
+}
     else if (commandWord.equals("scream")){
       System.out.println("Stop screaming, you're straining your vocal chords");
     }
@@ -221,7 +232,7 @@ public class Game {
       System.out.println("Why are you running");
     }
     else {
-      System.out.println("You died to the Wolverine, Thank you for playing. Your bonus score is"+score+"Good Luck Next Time!!!");
+      System.out.println("You died to the Wolverine, Thank you for playing. Your bonus score is "+score+" Good Luck Next Time!!!");
       return true;
     }
     }
@@ -236,7 +247,7 @@ public class Game {
       System.out.println("Why are you running");
     }
     else {
-      System.out.println("You died to the Wolverine, Thank you for playing, Good Luck Next Time!!!");
+      System.out.println("You died to the Wolverine, Thank you for playing. Your bonus score is "+score+" Good Luck Next Time!!!");
       return true;
   }
 }
@@ -389,8 +400,8 @@ public class Game {
         if (chance<4){
           goRoom(command);
         }
-        else {
-          System.out.println("You die to the snakes, You have a bonus score of"+score+"thank you for playing");
+        else if (chance>4){
+          System.out.println("You die to the snakes, You have a bonus score of "+score+" thank you for playing");
           System.exit(0);
         }
         }
@@ -399,7 +410,18 @@ public class Game {
           goRoom(command);
         }
         }
-      }
+      }  
+      else if (nextRoom.getRoomName().equals("King Tomb")){
+        int chance=(int)(Math.random()*10)+1;
+        if (chance<1){
+          goRoom(command);
+        }
+        else {
+          System.out.println("You get bit by a scorpion, You have a bonus score of "+score+" thank you for playing");
+          System.exit(0);
+        }
+        }  
+      
       else if(nextRoom.getRoomName().equals("Escape")){
         if(!inventory.contains("Mantlepiece")){
         System.out.println("You do not have the items to get to the next area");

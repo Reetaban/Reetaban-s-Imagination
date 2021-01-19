@@ -27,7 +27,7 @@ Room Description: You are at the beach. Around you, you can see a number of empt
 Exit Rooms: N-Main Area, S-Murky Water
 Room Name: Murky Water
 Room Description: You enter the murky water. At the start you could wade through the water, however you need to swim now.
-Exit Rooms: N-River Bank, E-Hiden Grotto, S-Rapids
+Exit Rooms: N-River Bank, E-Hidden Grotto, S-Rapids
 Room Name: Rapids
 Room Description: You reach fast flowing water. You need to go back.
 Exit Rooms: N-Murky Water
