@@ -234,6 +234,7 @@ public class Game {
     else if (commandWord.equals("drink")){
       if (inventory.contains("Water Bottle")){
         System.out.println("Your brain clears up after drinking water. For some reason you want to craft a flashlight");
+        inventory.remove("Water Bottle");
       }
       else {
         System.out.println("Where is your water");
@@ -304,6 +305,7 @@ public class Game {
     } else if (currentRoom.getRoomName().equals("King Tomb")) {
       return "Mantlepiece";
     } else if (currentRoom.getRoomName().equals("Treasure Chest")) {
+      score+=10;
       return "Diamond";
     } else if (currentRoom.getRoomName().equals("River Bank")) {
       return "Bottle";
@@ -403,7 +405,6 @@ public class Game {
     if (nextRoom == null)
       System.out.println("There is no door!");
     else if (nextRoom.getIsLocked()){
-      System.out.println("Cave west locked");
       if(nextRoom.getRoomName().equals("Deserted Temple")){
         if(!inventory.contains("Working Flashlight")){
         System.out.println("You do not have the items to get to the next area");
@@ -431,7 +432,8 @@ public class Game {
       }  
       else if (nextRoom.getRoomName().equals("King Tomb")){
         int chance=(int)(Math.random()*10)+1;
-        if (chance<1){
+        System.out.println(chance);
+        if (chance>2){
           goRoom(command);
         }
         else {

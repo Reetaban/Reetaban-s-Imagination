@@ -10,7 +10,7 @@
  */
 class CommandWords {
   // a constant array that holds all valid command words
-  private static final String validCommands[] = { "go", "quit", "help", "eat", "yell","run","climb","craft","collect","scream","walk","jump","look","swim"};
+  private static final String validCommands[] = { "go", "quit", "help", "eat", "yell","run","climb","craft","collect","scream","walk","jump","look","swim","drink"};
 
   /**
    * Constructor - initialise the command words.
