@@ -162,7 +162,7 @@ public class Game {
         if (totalweight+weight.get(item)<=MAX_WEIGHT){
         inventory.add(item);
         }
-        else {
+        else if (item.equals("Diamond")&& !item.equals("Gold Coin")) {
           System.out.println("You need to drop an item");
           System.out.println(inventory);
           while(totalMass()+weight.get(item)>MAX_WEIGHT){
@@ -220,6 +220,24 @@ public class Game {
     }
     else if (commandWord.equals("yell")){
       System.out.println("Same thing as scream basically");
+    }
+    else if (commandWord.equals("collect")){
+      if (inventory.contains("Bottle")) {
+        System.out.println("You collect water with your bottle");
+        inventory.add("Water Bottle");
+        inventory.remove("Bottle");
+      }
+      else {
+        System.out.println("Where is your bottle");
+      }
+    }
+    else if (commandWord.equals("drink")){
+      if (inventory.contains("Water Bottle")){
+        System.out.println("Your brain clears up after drinking water. For some reason you want to craft a flashlight");
+      }
+      else {
+        System.out.println("Where is your water");
+      }
     }
     else if (commandWord.equals("run")){ 
     boolean result=run();
