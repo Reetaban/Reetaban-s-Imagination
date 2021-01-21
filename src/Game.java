@@ -31,13 +31,13 @@ public class Game {
   // masterRoomMap.get("GREAT_ROOM") will return the Room Object that is the Great
   // Room (assuming you have one).
   private HashMap<String, Room> masterRoomMap;
-  private static final int MAX_WEIGHT=25;
-  private ArrayList<String> inventory = new ArrayList<>();
-  private HashMap<String, Integer> weight= new HashMap<>();
-  int score=0;
+  private static final int MAX_WEIGHT=25; //Maximum weight I have decided
+  private ArrayList<String> inventory = new ArrayList<>(); // This is an array list for my inventory
+  private HashMap<String, Integer> weight= new HashMap<>(); // Giving Weight to Items
+  int score=0; // Bonus Points
   Scanner scan=new Scanner(System.in);
   private void initRooms(String fileName) throws Exception {
-    masterRoomMap = new HashMap<String, Room>();
+    masterRoomMap = new HashMap<String, Room>(); // Here it lists the weights for each item
     Scanner roomScanner;
     weight.put("Batteries",5);
     weight.put("Bottle",2);
@@ -57,6 +57,7 @@ public class Game {
         // Read the Description
         if (roomName.split(":")[1].trim().equals("Escape") || (roomName.split(":")[1].trim().equals("Deserted Temple")))
           room.setIsLocked(true);
+        // Sets the locked doors
         else
           room.setIsLocked(false);
         String roomDescription = roomScanner.nextLine();
@@ -123,8 +124,9 @@ public class Game {
     while (!finished) {
       Command command = parser.getCommand();
       finished = processCommand(command);
+
     }
-    System.out.println("Thank you for playing. Your bonus score is"+score+"Good bye.");
+    System.out.println("Thank you for playing. Your bonus score is "+score+" Good bye.");
   }
 
   /**
@@ -149,37 +151,48 @@ public class Game {
       System.out.println("I don't know what you mean...");
       return false;
     }
+    if (currentRoom.getRoomName().equals("Escape")){ // If you reach the last room you quit the game and win
+      System.out.println("Thank you for playing. Your bonus score is "+score+" Good bye.");
+      System.exit(0);
+    }
     String commandWord = command.getCommandWord();
     if (commandWord.equals("help"))
       printHelp();
     else if (commandWord.equals("go"))
       goRoom(command);
-    else if (commandWord.equals("look")) {
-      String item = lookaround();
-      System.out.println("You find "+item);  
-      if (!item.equals("No items found")&& !item.equals("Diamond")&& !item.equals("Gold Coin")){
+    else if (commandWord.equals("look")) { // Searches the map for items
+      String item = lookaround();  
+      if (item.equals("No items found")){
+        System.out.println("No items found");
+      }
+      else if (!item.equals("Diamond")&& !item.equals("Gold Coin")){ //These items do not get added to inventory, but added to bonus score as they are hard to get
+        System.out.println("You find "+item);
         int totalweight=totalMass();
         if (totalweight+weight.get(item)<=MAX_WEIGHT){
-        inventory.add(item);
+        inventory.add(item); //adds if they dont go over the total weight
         }
-        else if (item.equals("Diamond")&& !item.equals("Gold Coin")) {
+        else {
           System.out.println("You need to drop an item");
           System.out.println(inventory);
           while(totalMass()+weight.get(item)>MAX_WEIGHT){
           System.out.println("Which item do you want to drop");
-          String toDrop= scan.nextLine();
+          String toDrop= scan.nextLine(); //scans which item u want to drop
           if (inventory.contains(toDrop)){
           inventory.remove(toDrop);
+          System.out.println("You removed "+toDrop);
           }
           else{
-            System.out.println("Enter the correct item name");
+            System.out.println("Enter the correct item name"); // Catches error in item name
           }
           }
           inventory.add(item);
         }
       }
-      
-    } else if (commandWord.equals("jump")) {
+      else{
+      System.out.println("You find "+item); 
+      }
+    } 
+    else if (commandWord.equals("jump")) { //jump command
       System.out.println("Van Halen plays in the background. Might as well jump.");
     }
     else if(commandWord.equals("swim")){
@@ -188,7 +201,7 @@ public class Game {
         System.out.println("Please enter a direction");
       }
       else {
-      String second=command.getSecondWord();
+      String second=command.getSecondWord(); //reskinning go command as swim so it makes sense
       if (second.equals("south")){
         goRoom(new Command("swim", "south"));
       }
@@ -200,7 +213,7 @@ public class Game {
       }
     }
     }
-    if (currentRoom.getRoomName().equals("Rapids")){
+    if (currentRoom.getRoomName().equals("Rapids")){ //doing it in the rapids as well
     if (command.hasSecondWord()==false){
     System.out.println("Please enter a direction");
     }
@@ -212,7 +225,7 @@ public class Game {
     }
   }
   else {
-    System.out.println("Why are trying to swim on land");
+    System.out.println("Why are trying to swim on land"); //makes sure u cant swim on land
   }
 }
     else if (commandWord.equals("scream")){
@@ -233,7 +246,7 @@ public class Game {
     }
     else if (commandWord.equals("drink")){
       if (inventory.contains("Water Bottle")){
-        System.out.println("Your brain clears up after drinking water. For some reason you want to craft a flashlight");
+        System.out.println("Your brain clears up after drinking water. For some reason you want to craft a flashlight"); // gives a hint
         inventory.remove("Water Bottle");
       }
       else {
@@ -243,9 +256,12 @@ public class Game {
     else if (commandWord.equals("run")){ 
     boolean result=run();
     if(result==true && currentRoom.getRoomName().equals("Deeper Woods")){
-      Command cmd=new Command("go","west");
-      goRoom(cmd);
-      System.out.println("You have succesfully ran away from the Wolverine");
+      currentRoom=currentRoom.nextRoom("west"); //makes the current room the next room because go room command wasnt working
+      System.out.println("You run away from the Wolverine");
+      System.out.println(currentRoom.getRoomName());
+      System.out.println(""); //This was done because it wasnt reading properly so I had to make it manually
+      System.out.println("The trees shroud your vision, as you slowly traverse through the woods. \n To your distance you can hear an animal screeching. Your gut clenches, and your body is screaming to go back");
+      System.out.println("E-Deeper Woods, S-Abandoned House");
     }
     else if (result){
       System.out.println("Why are you running");
@@ -255,12 +271,15 @@ public class Game {
       return true;
     }
     }
-    else if (commandWord.equals("climb")){
+    else if (commandWord.equals("climb")){ //The other way to escape from the wolverine
     boolean result=climb();
     if(result==true && currentRoom.getRoomName().equals("Deeper Woods")){
-      Command cmd=new Command("go","east");
-      goRoom(cmd);
+      currentRoom=currentRoom.nextRoom("east");
       System.out.println("You have succesfully ran away from the Wolverine");
+      System.out.println(currentRoom.getRoomName());
+      System.out.println("");
+      System.out.println("hoa. I am impressed. Congrats on getting past the wolverine without dying.\n You have reached the only easter egg in the game. Look around for your prize. Also good luck getting back. ");
+      System.out.println("W-Deeper Woods");
     }
     else if (result){
       System.out.println("Why are you running");
@@ -273,7 +292,7 @@ public class Game {
       else if (commandWord.equals("walk")){
       System.out.println("You tread lightly, how cool you must be");
     }
-    else if (commandWord.equals("craft")){
+    else if (commandWord.equals("craft")){ //removes the materials to create one item
       String item= craft();
       if (!item.equals("You do not have the required materials to craft")){
         inventory.add(item);
@@ -297,7 +316,7 @@ public class Game {
     return false;
   }
 
-  private String lookaround() {
+  private String lookaround() { //describes the items in given areas
     if (currentRoom.getRoomName().equals("Main Area")) {
       return "Batteries";
     } else if (currentRoom.getRoomName().equals("Cave")) {
@@ -313,17 +332,17 @@ public class Game {
       score+=5;
       return "Gold Coin";
     } else if (currentRoom.getRoomName().equals("Dead End")) {
-      score+=10;
-      return "Diamond";
+      score+=30;
+      return "Diamond"; //harder area so higher score
       
     } else if (currentRoom.getRoomName().equals("Basement")) {
       return "Empty Flashlight";
     } else {
-      return "no items ";
+      return "No items found";
     }
   }
 
-  private String craft() {
+  private String craft() { // if the inventory has both materials can craft the working flashlight
     if (inventory.contains("Batteries") && inventory.contains("Empty Flashlight")){
       return "Working Flashlight";
     }
@@ -334,7 +353,7 @@ public class Game {
 
   private boolean climb(){
     if (currentRoom.getRoomName().equals("Deeper Woods")){
-      int chance=(int)(Math.random()*10)+1;
+      int chance=(int)(Math.random()*10)+1; // percentage of survival and death while climbing a tree
       if (chance<2){
         return true;
       }
@@ -361,7 +380,7 @@ public class Game {
 
   private boolean run() {
     if (currentRoom.getRoomName().equals("Deeper Woods")){
-      int chance=(int)(Math.random()*10)+1;
+      int chance=(int)(Math.random()*10)+1; //percentage of survival and death while running
       if (chance<6){
         return true;
       }
@@ -386,6 +405,7 @@ public class Game {
     parser.showCommands();
   }
 
+
   /**
    * Try to go to one direction. If there is an exit, enter the new room,
    * otherwise print an error message.
@@ -398,24 +418,36 @@ public class Game {
     }
     String direction = command.getSecondWord();
     if (currentRoom.getRoomName().equals("Deeper Woods")){
-    System.out.println("You can not use the go method here, use run or climb");
+    System.out.println("You can not use the go method here, use run or climb"); //forces the player to use run and climb and not allowing bypass using go
     }
     else{
     Room nextRoom = currentRoom.nextRoom(direction);
     if (nextRoom == null)
       System.out.println("There is no door!");
-    else if (nextRoom.getIsLocked()){
+    else if (nextRoom.getIsLocked()){ //locked doors, its unlocked when u have the right items
       if(nextRoom.getRoomName().equals("Deserted Temple")){
         if(!inventory.contains("Working Flashlight")){
-        System.out.println("You do not have the items to get to the next area");
+        System.out.println("You do not have the items to get to the next area"); 
       }
-      else{
+      else if (inventory.contains("Working Flashlight")){
       nextRoom.setIsLocked(false);
+      goRoom(command);
       }
     }
+    else if(nextRoom.getRoomName().equals("Escape")){ //locked doors, its unlocked when u have the right items
+        System.out.println("Escape");
+        if(!inventory.contains("Mantlepiece")){
+        System.out.println("You do not have the items to get to the next area");
+      }
+      else {
+        nextRoom.setIsLocked(false);
+        goRoom(command);
+    }
+  }
+}
       else if (nextRoom.getRoomName().equals("Treasure Chest")){
-        if (!inventory.contains("Lighter")){
-        int chance=(int)(Math.random()*10)+1;
+        if (!inventory.contains("Lighter")){ 
+        int chance=(int)(Math.random()*10)+1; //percentage of survival in the snakepit without a lighter
         if (chance<4){
           goRoom(command);
         }
@@ -424,36 +456,31 @@ public class Game {
           System.exit(0);
         }
         }
-        else{
+        else{ //if u have a lighter u can survive 
           System.out.println("You use the lighter to distract the snakes");
           goRoom(command);
         }
         }
-      }  
       else if (nextRoom.getRoomName().equals("King Tomb")){
         int chance=(int)(Math.random()*10)+1;
-        System.out.println(chance);
-        if (chance>2){
-          goRoom(command);
+        System.out.println(chance); // Percentage of survival, the go command wasnt working so I had to manually move it
+        if (chance>3){
+          currentRoom=nextRoom;
+          System.out.println("King Tomb");
+          System.out.println("");
+          System.out.println("The tomb is threatening but awe inspiring at the same time.\n Built in ancient times, there could be the mantlepiece that you are looking for.");
+          System.out.println("D-Scorpion Pit");
         }
         else {
           System.out.println("You get bit by a scorpion, You have a bonus score of "+score+" thank you for playing");
           System.exit(0);
         }
-        }  
-      
-      else if(nextRoom.getRoomName().equals("Escape")){
-        if(!inventory.contains("Mantlepiece")){
-        System.out.println("You do not have the items to get to the next area");
-      }
-      else {
-        nextRoom.setIsLocked(false);
-      }
-      }
+        } 
     else {
       currentRoom = nextRoom;
       System.out.println(currentRoom.longDescription());
     }
   }
+  }
 }
-}
+

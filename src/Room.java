@@ -29,7 +29,7 @@ public class Room {
   public Room(String description,boolean isLocked) {
     this.description = description;
     exits = new HashMap<String, Room>();
-    this.isLocked=isLocked;
+    this.isLocked=isLocked; // Is Locked is true for the Deserted Temple and Escape rooms, to ensure that you have the required materials to pass through
   }
 
   public Room() {
@@ -43,7 +43,7 @@ public void setIsLocked(boolean isLocked){
   this.isLocked=isLocked;
 }
 
-public boolean getIsLocked(){
+public boolean getIsLocked(){ 
   return isLocked;
 }
 
